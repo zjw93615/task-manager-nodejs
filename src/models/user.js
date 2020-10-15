@@ -64,7 +64,7 @@ userSchema.virtual('projects', {
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString(), exp: Math.floor(Date.now() / 1000) + (60 * 60 * 72) }, 'thisisthenodejscourse')
+    const token = jwt.sign({ _id: user._id.toString(), exp: Math.floor(Date.now() / 1000) + (60 * 60 * 72) }, process.env.JWT_SECRET)
     user.tokens = user.tokens.concat({ token })
     user.save()
 

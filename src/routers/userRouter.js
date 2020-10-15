@@ -115,6 +115,9 @@ router.post('/users/forgot', async (req, res) => {
 router.post('/users/reset', async (req, res) => {
     try {
         const user = await User.findOne({resetPasswordToken: req.body.token})
+        if(user.resetPasswordExpires < Date.now()) {
+            throw new Error('Token Expires')
+        }
         user['password'] = req.body.password
         await user.save()
         res.send(user)
